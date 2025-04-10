@@ -36,23 +36,52 @@ function MarcaFilter() {
         ? prevSelected.filter((marca) => marca !== value)
         : [...prevSelected, value]
     );
+
   };
 
+  useEffect(() => {
+    console.log(selectedMarca);
+}, [selectedMarca]);
+
   return (
-    <div className="filters-wrap">
-      <h2 className="text-xl font-bold mb-4">Marca</h2>
+    <div className="filters-wrap p-[28px] border border-[#707070]">
+      
+      <div className="apl-logo mb-4">
+        <img
+          src={
+            window.reactAppConfig?.assetsUrl
+              ? `${window.reactAppConfig.assetsUrl}/APLeitao.svg`
+              : require('./assets/APLeitao.svg').default
+          }
+          alt="APLeitao"
+          className="w-[238px] h-auto"
+        />
+      </div>
+
       <form>
         <ul className="space-y-2">
           {terms.map((term) => (
             <li key={term.id}>
-              <label className="inline-flex items-center">
+              <label className="inline-flex items-center mt-[10px] mb-[10px] cursor-pointer">
                 <input
                   type="checkbox"
                   value={term.id}
                   onChange={handleCheckboxChange}
-                  className="mr-2"
+                  className="custom-checkbox w-[30px] h-[30px] mr-[20px]"
                 />
-                {term.name}
+                {term.name === 'Silestone' || term.name === 'Dekton' ? (
+                  <img
+                    src={
+                      window.reactAppConfig?.assetsUrl
+                        ? `${window.reactAppConfig.assetsUrl}/${term.name}.svg`
+                        : require(`./assets/${term.name}.svg`)
+                    }
+                    alt={term.name}
+                    className="filterlogo"
+                  />
+                ) : (
+                  <span className="term-name font-poppins text-[#0F4D6C]">{term.name}</span>
+                )}
               </label>
             </li>
           ))}
@@ -67,7 +96,8 @@ function App() {
     <div className="max-w-[1640px] mx-auto px-4 py-8">
       <div className="grid grid-cols-4 gap-8">
         {/* Sidebar: 1/4 */}
-        <aside className="filters-wrap col-span-1 bg-gray-100 p-4">
+        <aside className="filters col-span-1">
+          <div className="filter-label font-poppins px-[28px]">Marca</div>
           <MarcaFilter />
         </aside>
 

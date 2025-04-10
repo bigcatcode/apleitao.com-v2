@@ -24,7 +24,7 @@ function custom_child_scripts() {
 
 		wp_enqueue_script(
 		    'projeto_virtual_js',
-		    CORE_URL . '/projeto-virtual/build/static/js/main.b4dc93bf.js',
+		    CORE_URL . '/projeto-virtual/build/static/js/main.ec0f31a1.js',
 	        array('jquery'), 
 	        rand(),
 	        true  
@@ -32,12 +32,15 @@ function custom_child_scripts() {
 
 		wp_enqueue_style(
 			'projeto_virtual_style', 
-			CORE_URL . '/projeto-virtual/build/static/css/main.5f69ac69.css',
+			CORE_URL . '/projeto-virtual/build/static/css/main.7edd8237.css',
 			array(),
 			rand()
 		);
 
-	
+
+		wp_localize_script('projeto_virtual_js', 'reactAppConfig', [
+			'assetsUrl' => CORE_URL . '/assets'
+		]);
 		
 		
 	}
