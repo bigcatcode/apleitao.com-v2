@@ -129,7 +129,7 @@ function CorFilter() {
   }, [selectedCor]);
 
   return (
-    <div className="filters-wrap p-[28px] pr-[5px]  border border-[#707070]">
+    <div className="filters-wrap p-[28px] pr-[5px]  border border-[#707070] mb-[20px]">
     <form>
       <ul className="grid grid-cols-2 gap-4">
         {corTerms.map((term) => (
@@ -163,6 +163,71 @@ function CorFilter() {
   );
 }
 
+function AcabamentoFilter() {
+  const [terms, setTerms] = useState([]);
+  const [selectedAcabamento, setSelectedAcabamento] = useState([]);
+  const BASE_URL = 'http://localhost:10044';
+
+  // Fetch terms from the WordPress REST API
+  useEffect(() => {
+    const fetchTerms = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/wp-json/wp/v2/acabamento`);
+        const data = await response.json();
+
+        // Sort the terms by description (assuming description is a string)
+        const sortedData = data.sort((a, b) => {
+          if (a.description < b.description) return -1;
+          if (a.description > b.description) return 1;
+          return 0;
+        });
+
+        setTerms(sortedData);
+      } catch (error) {
+        console.error('Error fetching terms:', error);
+      }
+    };
+
+    fetchTerms();
+  }, []);
+
+  // Handle checkbox state change
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    setSelectedAcabamento((prevSelected) =>
+      prevSelected.includes(value)
+        ? prevSelected.filter((acabamento) => acabamento !== value)
+        : [...prevSelected, value]
+    );
+  };
+
+  useEffect(() => {
+    console.log(selectedAcabamento);
+  }, [selectedAcabamento]);
+
+  return (
+    <div className="filters-wrap p-[28px] border border-[#707070] mb-[20px]">
+      <form>
+        <ul className="space-y-2">
+          {terms.map((term) => (
+            <li key={term.id}>
+              <label className="inline-flex items-center mt-[10px] mb-[10px] cursor-pointer">
+                <input
+                  type="checkbox"
+                  value={term.id}
+                  onChange={handleCheckboxChange}
+                  className="custom-checkbox w-[30px] h-[30px] mr-[20px]"
+                />
+                <span className="term-name font-poppins text-[#0F4D6C]">{term.name}</span>
+              </label>
+            </li>
+          ))}
+        </ul>
+      </form>
+    </div>
+  );
+}
+
 function App() {
   return (
     <div className="max-w-[1640px] mx-auto py-8">
@@ -174,6 +239,8 @@ function App() {
           <MarcaFilter />
           <div className="filter-label font-poppins px-[28px]">Cor</div>
           <CorFilter />
+          <div className="filter-label font-poppins px-[28px]">Acabamento</div>
+          <AcabamentoFilter />
         </aside>
 
 
