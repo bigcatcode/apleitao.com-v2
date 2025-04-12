@@ -22,9 +22,12 @@ function custom_child_scripts() {
 	
 	if ( is_page_template('template-projeto-virtual.php') ) {
 
+		wp_enqueue_style('swiper-css', 'https://unpkg.com/swiper/swiper-bundle.min.css');
+    	wp_enqueue_script('swiper-js', 'https://unpkg.com/swiper/swiper-bundle.min.js', array(), null, true);
+
 		wp_enqueue_script(
 		    'projeto_virtual_js',
-		    CORE_URL . '/projeto-virtual/build/static/js/main.f25d438f.js',
+		    CORE_URL . '/projeto-virtual/build/static/js/main.873c8286.js',
 	        array('jquery'), 
 	        rand(),
 	        true  
@@ -32,7 +35,7 @@ function custom_child_scripts() {
 
 		wp_enqueue_style(
 			'projeto_virtual_style', 
-			CORE_URL . '/projeto-virtual/build/static/css/main.35bbd9ea.css',
+			CORE_URL . '/projeto-virtual/build/static/css/main.d0a1f529.css',
 			array(),
 			rand()
 		);

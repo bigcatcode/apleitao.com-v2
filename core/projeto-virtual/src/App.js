@@ -5,6 +5,7 @@ import { Navigation } from 'swiper/modules';
 // Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
+import { ClipLoader } from "react-spinners";
 
 function MarcaFilter() {
   const [terms, setTerms] = useState([]);
@@ -253,27 +254,122 @@ const CozinhaIcon = ({ fill }) => (
 
 
 
-
-
-function ProductSlider() {
+function ProductSection() {
   const [products, setProducts] = useState([]);
-  const prevRef = useRef(null);
-  const nextRef = useRef(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:10044/wp-json/wp/v2/produtos?_embed')
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
+    const fetchProducts = async () => {
+      try {
+        let allProducts = [];
+        let currentPage = 1;
+        let hasMore = true;
+
+        while (hasMore) {
+          const response = await fetch(
+            `http://localhost:10044/wp-json/wp/v2/produtos?_embed&per_page=100&page=${currentPage}`
+          );
+          const data = await response.json();
+          allProducts = [...allProducts, ...data];
+
+          if (data.length < 100) {
+            hasMore = false;
+          } else {
+            currentPage += 1;
+          }
+        }
+
+        setProducts(allProducts); // Set products in the parent component
+        setLoading(false); // Once data is fetched, set loading to false
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchProducts(); // Call on mount
   }, []);
+
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center">
+  //       <ClipLoader color="#0F4D6C" size={50} />
+  //     </div>
+  //   ); // Display spinner while fetching
+  // }
+
+  return (
+    <div>
+      <div className="product-top px-5">
+
+        <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-5">
+          BANCADA & PAREDE
+        </h3>
+
+        {/* Loader visible during fetch */}
+        {loading && (
+          <div className="flex justify-center items-center">
+            <ClipLoader color="#0F4D6C" size={50} />
+          </div>
+        )}
+
+        {/* Product Slider visible after products are loaded */}
+        {!loading && (
+          <div className="product-slider">
+            <ProductSlider products={products} />
+          </div>
+        )}
+
+      </div>
+
+      <div className="product-bottom px-5">
+
+        <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-5">
+          CHÃO
+        </h3>
+
+        {/* Loader visible during fetch */}
+        {loading && (
+          <div className="flex justify-center items-center">
+            <ClipLoader color="#0F4D6C" size={50} />
+          </div>
+        )}
+
+        {/* Product Slider visible after products are loaded */}
+        {!loading && (
+          <div className="product-slider">
+            <ProductSlider products={products} />
+          </div>
+        )}
+        
+      </div>
+    </div>
+  );
+}
+
+function ProductSlider({ products }) {
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const [swiperInstance, setSwiperInstance] = useState(null);
+
+  useEffect(() => {
+    if (swiperInstance) {
+      // This will make sure Swiper is initialized after the external navigation is available
+      swiperInstance.params.navigation.prevEl = prevRef.current;
+      swiperInstance.params.navigation.nextEl = nextRef.current;
+      swiperInstance.navigation.update();
+    }
+  }, [swiperInstance]);
 
   return (
     <div className="relative flex justify-center">
       <div className="w-full max-w-[1000px]">
-        {/* Slider */}
+        {/* Swiper */}
         <Swiper
           modules={[Navigation]}
           spaceBetween={10}
           slidesPerView={4}
+          onInit={(swiper) => setSwiperInstance(swiper)} // Save swiper instance after initialization
           onBeforeInit={(swiper) => {
             swiper.params.navigation.prevEl = prevRef.current;
             swiper.params.navigation.nextEl = nextRef.current;
@@ -313,12 +409,10 @@ function ProductSlider() {
             className="swiper-button-next !text-[#0F4D6C] !static"
           />
         </div>
-
       </div>
     </div>
   );
 }
-
 
 function App() {
 
@@ -413,14 +507,7 @@ function App() {
                   />                  
               </div>
 
-              <div className="product-top px-5">
-                <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-5">
-                  BANCADA & PAREDE
-                </h3>
-                <div className="product-slider">
-                  <ProductSlider />
-                </div>
-              </div>
+              <ProductSection />
 
             </main>
           </div>
