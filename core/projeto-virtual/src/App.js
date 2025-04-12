@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules'; 
+// Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 function MarcaFilter() {
   const [terms, setTerms] = useState([]);
@@ -139,7 +145,7 @@ function CorFilter() {
                 type="checkbox"
                 value={term.id}
                 onChange={handleCorCheckboxChange}
-                className="custom-checkbox w-[30px] h-[30px] mr-[15px]"
+                className="custom-checkbox w-[30px] h-[30px] mr-[7px]"
               />
                 <div className="mr-[10px]">
                   {term.cor_image_url ? (
@@ -245,7 +251,92 @@ const CozinhaIcon = ({ fill }) => (
   </svg>
 );
 
+
+
+
+
+function ProductSlider() {
+  const [products, setProducts] = useState([]);
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+
+  useEffect(() => {
+    fetch('http://localhost:10044/wp-json/wp/v2/produtos?_embed')
+      .then((response) => response.json())
+      .then((data) => setProducts(data));
+  }, []);
+
+  return (
+    <div className="relative flex justify-center">
+      <div className="w-full max-w-[1000px]">
+        {/* Slider */}
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={10}
+          slidesPerView={4}
+          onBeforeInit={(swiper) => {
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+          }}
+          navigation={{
+            prevEl: prevRef.current,
+            nextEl: nextRef.current,
+          }}
+        >
+          {products.map((product) => {
+            const imageUrl = product._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+            const title = product.title?.rendered;
+
+            return (
+              <SwiperSlide key={product.id}>
+                <div className=" h-[100px] flex flex-col justify-between items-center">
+                  <img
+                    src={imageUrl}
+                    alt={title}
+                    className="w-full h-[56px] object-cover"
+                  />
+                  <p className="text-center text-[18px] text-[#0F4D6C] uppercase">{title}</p>
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+
+        {/* External Navigation Buttons */}
+        <div className="absolute top-[-60px] w-full flex justify-between px-4 max-w-[1000px]">
+          <div
+            ref={prevRef}
+            className="swiper-button-prev !text-[#0F4D6C] !static"
+          />
+          <div
+            ref={nextRef}
+            className="swiper-button-next !text-[#0F4D6C] !static"
+          />
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+
 function App() {
+
+    // Track active button and image source
+    const [activeButton, setActiveButton] = useState('Sala'); // Default active button
+
+    // Function to handle button click and change image
+    const handleButtonClick = (buttonName) => {
+      setActiveButton(buttonName);
+    };
+  
+    // Generate image based on active button
+    const getImageSrc = () => {
+      return window.reactAppConfig?.assetsUrl
+        ? `${window.reactAppConfig.assetsUrl}/ProjetoVirtual/${activeButton}/${activeButton}_BASE.webp`
+        : require(`./assets/ProjetoVirtual/${activeButton}/${activeButton}_BASE.webp`);
+    };
+
   return (
     
     <div className="w-full flex justify-center">
@@ -253,7 +344,10 @@ function App() {
 
         {/* Static Left Sidebar */}
         <div className="w-[136px] bg-[#0F4D6C] flex flex-col items-center py-8 gap-6">
-            <button className="mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px]">
+              <button
+                onClick={() => handleButtonClick('Sala')}
+                className={`mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px] ${activeButton === 'Sala' ? 'bg-[#FF5722]' : ''}`}
+              >
               <img
                 src={
                   window.reactAppConfig?.assetsUrl
@@ -264,7 +358,10 @@ function App() {
                 className="buttonlogo"
               />
             </button>
-            <button className="mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px]">
+            <button
+              onClick={() => handleButtonClick('Cozinha')}
+              className={`mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px] ${activeButton === 'Cozinha' ? 'bg-[#FF5722]' : ''}`}
+            >
               {/* <CozinhaIcon fill="#fff" /> */}
               <img
                   src={
@@ -276,7 +373,10 @@ function App() {
                   className="buttonlogo"
                 />
             </button>
-            <button className="mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px]">
+            <button
+              onClick={() => handleButtonClick('WC')}
+              className={`mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px] ${activeButton === 'WC' ? 'bg-[#FF5722]' : ''}`}
+            >
               <img
                   src={
                     window.reactAppConfig?.assetsUrl
@@ -303,9 +403,25 @@ function App() {
             </aside>
 
             {/* Main */}
-            <main className="content-wrap col-span-3 bg-white p-6">
-              <h1 className="text-3xl font-bold mb-4">Hello from React inside WordPress!</h1>
-              <p className="text-gray-700">Main content here...</p>
+            <main className="content-wrap col-span-3">
+              
+              <div className="virtual-image flex justify-center py-10 px-5">
+                <img
+                    src={getImageSrc()}
+                    alt="baseimage"
+                    className="baseimage w-[1000px] h-[563px] object-contain"
+                  />                  
+              </div>
+
+              <div className="product-top px-5">
+                <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-5">
+                  BANCADA & PAREDE
+                </h3>
+                <div className="product-slider">
+                  <ProductSlider />
+                </div>
+              </div>
+
             </main>
           </div>
         </div>
