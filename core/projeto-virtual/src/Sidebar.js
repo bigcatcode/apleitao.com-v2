@@ -1,26 +1,29 @@
 import React from 'react';
 
+import SalaIcon from './assets/Sala.svg';
+import CozinhaIcon from './assets/Cozinha.svg';
+import WCIcon from './assets/WC.svg';
+
 function Sidebar({ activeButton, onButtonClick }) {
-  const buttons = ['Sala', 'Cozinha', 'WC'];
+  const buttons = [
+    { name: 'Sala', icon: SalaIcon },
+    { name: 'Cozinha', icon: CozinhaIcon },
+    { name: 'WC', icon: WCIcon },
+  ];
 
   return (
     <div className="w-[136px] bg-[#0F4D6C] flex flex-col items-center py-8 gap-6">
-      {buttons.map((button) => (
+      {buttons.map(({ name, icon }) => (
         <button
-          key={button}
-          onClick={() => onButtonClick(button)}
-          className={`mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px] ${
-            activeButton === button ? 'bg-[#FF5722]' : ''
-          }`}
+          key={name}
+          onClick={() => onButtonClick(name)}
+          className={`mainbutton w-[136px] h-[118px] flex items-center justify-center p-[20px] bg-[#F79548]`}
         >
           <img
-            src={
-              window.reactAppConfig?.assetsUrl
-                ? `${window.reactAppConfig.assetsUrl}/${button}.svg`
-                : require(`./assets/${button}.svg`)
-            }
-            alt={button}
+            src={icon}
+            alt={name}
             className="buttonlogo"
+            style={{ filter: activeButton === name ? 'brightness(0) invert(1)' : 'none' }}
           />
         </button>
       ))}
