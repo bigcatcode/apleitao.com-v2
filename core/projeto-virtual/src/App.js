@@ -9,7 +9,7 @@ import { ClipLoader } from "react-spinners";
 
 import { MarcaFilter, CorFilter, AcabamentoFilter, EstiloFilter } from './filters';
 
-
+import Sidebar from './Sidebar';
 
 
 const CozinhaIcon = ({ fill }) => (
@@ -212,52 +212,9 @@ function App() {
     <div className="w-full flex justify-center">
       <div className="flex w-full max-w-[1640px]">
 
-        {/* Static Left Sidebar */}
-        <div className="w-[136px] bg-[#0F4D6C] flex flex-col items-center py-8 gap-6">
-              <button
-                onClick={() => handleButtonClick('Sala')}
-                className={`mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px] ${activeButton === 'Sala' ? 'bg-[#FF5722]' : ''}`}
-              >
-              <img
-                src={
-                  window.reactAppConfig?.assetsUrl
-                    ? `${window.reactAppConfig.assetsUrl}/Sala.svg`
-                    : require(`./assets/Sala.svg`).default
-                }
-                alt="Sala"
-                className="buttonlogo"
-              />
-            </button>
-            <button
-              onClick={() => handleButtonClick('Cozinha')}
-              className={`mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px] ${activeButton === 'Cozinha' ? 'bg-[#FF5722]' : ''}`}
-            >
-              {/* <CozinhaIcon fill="#fff" /> */}
-              <img
-                  src={
-                    window.reactAppConfig?.assetsUrl
-                      ? `${window.reactAppConfig.assetsUrl}/Cozinha.svg`
-                      : require(`./assets/Cozinha.svg`).default
-                  }
-                  alt="Cozinha"
-                  className="buttonlogo"
-                />
-            </button>
-            <button
-              onClick={() => handleButtonClick('WC')}
-              className={`mainbutton w-[136px] h-[118px] bg-[#F79548] flex items-center justify-center hover:opacity-90 p-[20px] ${activeButton === 'WC' ? 'bg-[#FF5722]' : ''}`}
-            >
-              <img
-                  src={
-                    window.reactAppConfig?.assetsUrl
-                      ? `${window.reactAppConfig.assetsUrl}/WC.svg`
-                      : require(`./assets/WC.svg`).default
-                  }
-                  alt="WC"
-                  className="buttonlogo"
-                />
-            </button>
-        </div>
+        {/* Sidebar extracted to component */}
+        <Sidebar activeButton={activeButton} onButtonClick={handleButtonClick} />
+
 
         {/* Main Content */}
         <div className="flex-1 ml-8">
