@@ -4,8 +4,6 @@ import { MarcaFilter, CorFilter, AcabamentoFilter, EstiloFilter } from './filter
 import Sidebar from './Sidebar';
 import ProductSection from './ProductSection';
 
-
-
 function App() {
 
     // Track active button and image source

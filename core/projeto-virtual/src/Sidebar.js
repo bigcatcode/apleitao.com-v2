@@ -1,15 +1,12 @@
 import React from 'react';
-
-import SalaIcon from './assets/Sala.svg';
-import CozinhaIcon from './assets/Cozinha.svg';
-import WCIcon from './assets/WC.svg';
+import BASE_URL from './config';
 
 function Sidebar({ activeButton, onButtonClick }) {
-  const buttons = [
-    { name: 'Sala', icon: SalaIcon },
-    { name: 'Cozinha', icon: CozinhaIcon },
-    { name: 'WC', icon: WCIcon },
-  ];
+    const buttons = [
+        { name: 'Sala', icon: `${BASE_URL}/wp-content/uploads/2025/01/icon2.svg` },
+        { name: 'Cozinha', icon: `${BASE_URL}/wp-content/uploads/2025/01/icon.svg` },
+        { name: 'WC', icon: `${BASE_URL}/wp-content/uploads/2025/01/icon3.svg` },
+      ];
 
   return (
     <div className="w-[136px] bg-[#0F4D6C] flex flex-col items-center py-8 gap-6">

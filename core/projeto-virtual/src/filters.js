@@ -1,5 +1,5 @@
 import React from 'react';
-import TaxonomyFilter from './TaxonomyFilter'; // Импортируем компонент TaxonomyFilter
+import TaxonomyFilter from './TaxonomyFilter'; 
 
 function MarcaFilter() {
     return (

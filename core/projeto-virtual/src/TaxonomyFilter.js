@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import BASE_URL from './config';
 
 function TaxonomyFilter({ taxonomy, layout = 'one-column' }) {
   const [terms, setTerms] = useState([]);
   const [selectedTerms, setSelectedTerms] = useState([]);
-  const BASE_URL = 'http://localhost:10044';
 
   // Fetch terms from the WordPress REST API
   useEffect(() => {
@@ -44,11 +44,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column' }) {
         {taxonomy === 'marca' && (
             <div className="apl-logo mb-4">
                 <img
-                src={
-                    window.reactAppConfig?.assetsUrl
-                    ? `${window.reactAppConfig.assetsUrl}/APLeitao.svg`
-                    : require('./assets/APLeitao.svg').default
-                }
+                src={`${BASE_URL}/wp-content/uploads/2024/12/logo.png`}
                 alt="APLeitao"
                 className="w-[238px] h-auto"
                 />
