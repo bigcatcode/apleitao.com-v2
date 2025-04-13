@@ -45,6 +45,44 @@ function App() {
         : `./assets/Projeto Virtual/Projecto virtual - ${activeButton}/${activeButton}_BASE.webp`;
     };
 
+    const removeAccents = (input) => {
+      // If the input is an array, process each element in the array
+      if (Array.isArray(input)) {
+        return input.map(str => removeAccents(str)); // Recursively apply to each element in the array
+      }
+    
+      // Ensure str is a string
+      if (typeof input !== 'string') {
+        console.warn('The input is not a string:', input);
+        return input; // Return the input as-is if it's not a string
+      }
+    
+      const accents = [
+        { base: 'a', letters: /[áàãâä]/g },
+        { base: 'e', letters: /[éèêë]/g },
+        { base: 'i', letters: /[íìîï]/g },
+        { base: 'o', letters: /[óòõôö]/g },
+        { base: 'u', letters: /[úùûü]/g },
+        { base: 'c', letters: /[ç]/g },
+        { base: 'n', letters: /[ñ]/g },
+        { base: 'A', letters: /[ÁÀÃÂÄ]/g },
+        { base: 'E', letters: /[ÉÈÊË]/g },
+        { base: 'I', letters: /[ÍÌÎÏ]/g },
+        { base: 'O', letters: /[ÓÒÕÔÖ]/g },
+        { base: 'U', letters: /[ÚÙÛÜ]/g },
+        { base: 'C', letters: /[Ç]/g },
+        { base: 'N', letters: /[Ñ]/g },
+        { base: 'a', letters: /[å]/g },  // Added Scandinavian 'å' for completeness
+        // Add any other characters you may encounter in your text
+      ];
+    
+      accents.forEach((accent) => {
+        input = input.replace(accent.letters, accent.base);
+      });
+    
+      return input;
+    };
+
   // Generate image for active slide
   const getSlideImageSrc = (attrType, activeSlide, activeButton) => {
     const slide = activeSlide[attrType];
@@ -55,10 +93,11 @@ function App() {
     }
 
     const { title, marca_names } = slide; // Destructure data from activeSlide
-    const titleWithoutSpaces = title.rendered.replace(/\s+/g, ''); // Remove spaces from the title
+    const titleWithoutSpaces = removeAccents(title.rendered).replace(/\s+/g, ''); // Remove spaces from the title
+    const marcaClean = removeAccents(marca_names);
     
 
-    return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marca_names}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${attrType}_${activeButton}-${titleWithoutSpaces}.webp`;
+    return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${attrType}_${activeButton}-${titleWithoutSpaces}.webp`;
 
   };
 
@@ -77,6 +116,7 @@ const checkImageExists = (src) => {
   
     useEffect(() => {
       const imageSrc = getSlideImageSrc(attrType, activeSlide, activeButton);
+      console.log(imageSrc);
       if (imageSrc) {
         checkImageExists(imageSrc).then((exists) => setImageExists(exists));
       }
