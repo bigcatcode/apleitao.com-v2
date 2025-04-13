@@ -96,8 +96,11 @@ function App() {
     const titleWithoutSpaces = removeAccents(title.rendered).replace(/\s+/g, ''); // Remove spaces from the title
     const marcaClean = removeAccents(marca_names);
     
+   
+    const pre_name = activeButton === 'Cozinha' && attrType === 'Parede' ? 'Balcao' : attrType;
 
-    return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${attrType}_${activeButton}-${titleWithoutSpaces}.webp`;
+
+    return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}_${titleWithoutSpaces}.webp`;
 
   };
 

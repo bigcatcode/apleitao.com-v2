@@ -3,6 +3,16 @@
 @import 'tailwindcss/utilities';
 
 
+.image-slide {
+  opacity: 0;  /* Start invisible */
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; /* Slide and fade */
+  transform: translateX(100%);
+}
+
+.image-slide.active {
+  opacity: 1; /* Fade in */
+  transform: translateX(0); /* Slide in */
+}
 
 .elementor-kit-5 button.mainbutton {
   background: #F79549;
