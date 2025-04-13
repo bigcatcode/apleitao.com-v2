@@ -34,3 +34,27 @@ function add_custom_taxonomy_fields_to_rest_api2() {
     );
 }
 add_action('rest_api_init', 'add_custom_taxonomy_fields_to_rest_api2');
+
+function add_taxonomy_terms_to_productos_rest() {
+    $taxonomies = ['serie', 'estilo', 'acabamento', 'cor', 'marca'];
+
+    foreach ($taxonomies as $taxonomy) {
+        register_rest_field(
+            'produtos',
+            $taxonomy . '_names',
+            [
+                'get_callback'    => function ($post_arr) use ($taxonomy) {
+                    $terms = get_the_terms($post_arr['id'], $taxonomy);
+                    if (is_array($terms)) {
+                        return array_map(function ($term) {
+                            return $term->name;
+                        }, $terms);
+                    }
+                    return [];
+                },
+                'schema' => null,
+            ]
+        );
+    }
+}
+add_action('rest_api_init', 'add_taxonomy_terms_to_productos_rest');

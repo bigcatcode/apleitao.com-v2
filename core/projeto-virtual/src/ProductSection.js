@@ -5,7 +5,7 @@ import ProductSlider from './ProductSlider';
 
 import BASE_URL from './config';
 
-function ProductSection({ filters }) {
+function ProductSection({ filters, onSlideChange }) {
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -60,7 +60,7 @@ function ProductSection({ filters }) {
           </div>
         ) : (
           <div className="product-slider">
-            <ProductSlider products={filteredProducts} />
+            <ProductSlider products={filteredProducts} type="Parede" onSlideChange={onSlideChange} />
           </div>
         )}
       </div>
@@ -75,7 +75,7 @@ function ProductSection({ filters }) {
           </div>
         ) : (
           <div className="product-slider">
-            <ProductSlider products={filteredProducts} />
+            <ProductSlider products={filteredProducts} type="Chao" onSlideChange={onSlideChange} />
           </div>
         )}
       </div>

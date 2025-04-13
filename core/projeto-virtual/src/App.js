@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, {  useState, useEffect } from 'react';
 
 import { MarcaFilter, CorFilter, AcabamentoFilter, EstiloFilter } from './filters';
 import Sidebar from './Sidebar';
@@ -8,6 +8,7 @@ function App() {
 
     // Track active button and image source
     const [activeButton, setActiveButton] = useState('Sala'); // Default active button
+    const [activeSlide, setActiveSlide] = useState({ slideData: null, stype: null }); // Track active slide with type
 
     const [filters, setFilters] = useState({
       marca: [],
@@ -24,13 +25,77 @@ function App() {
     const handleButtonClick = (buttonName) => {
       setActiveButton(buttonName);
     };
-  
+    
+    const handleSlideChange = (slideData, stype) => {
+      setActiveSlide((prev) => ({
+        ...prev,
+        [stype]: slideData
+      }));
+    };
+
+
+    // useEffect(() => {
+    //   console.log(activeSlide); 
+    // }, [activeSlide]);
+
     // Generate image based on active button
     const getImageSrc = () => {
       return window.reactAppConfig?.assetsUrl
         ? `${window.reactAppConfig.assetsUrl}/ProjetoVirtual/${activeButton}/${activeButton}_BASE.webp`
-        : require(`./assets/ProjetoVirtual/${activeButton}/${activeButton}_BASE.webp`);
+        : `./assets/Projeto Virtual/Projecto virtual - ${activeButton}/${activeButton}_BASE.webp`;
     };
+
+  // Generate image for active slide
+  const getSlideImageSrc = (attrType, activeSlide, activeButton) => {
+    const slide = activeSlide[attrType];
+    if (!slide) return null;
+
+    if (!slide || !slide.title || !slide.title.rendered ) {
+      return ''; // Return an empty string or a fallback image path if slideData is not available
+    }
+
+    const { title, marca_names } = slide; // Destructure data from activeSlide
+    const titleWithoutSpaces = title.rendered.replace(/\s+/g, ''); // Remove spaces from the title
+    
+
+    return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marca_names}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${attrType}_${activeButton}-${titleWithoutSpaces}.webp`;
+
+  };
+
+// Utility function to check if an image exists
+const checkImageExists = (src) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);  // Image loaded successfully
+    img.onerror = () => resolve(false);  // Error loading image
+    img.src = src;
+  });
+}
+
+  const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
+    const [imageExists, setImageExists] = useState(false);
+  
+    useEffect(() => {
+      const imageSrc = getSlideImageSrc(attrType, activeSlide, activeButton);
+      if (imageSrc) {
+        checkImageExists(imageSrc).then((exists) => setImageExists(exists));
+      }
+    }, [attrType, activeSlide, activeButton]);
+  
+    const imageSrc = getSlideImageSrc(attrType, activeSlide, activeButton);
+  
+    if (imageExists) {
+      return (
+        <img
+          src={imageSrc}
+          alt={`${attrType} - ${activeButton}`}
+          className={`${attrType}-image w-[1000px] h-[563px] object-contain absolute z-10`}
+        />
+      );
+    }
+  
+    return null; // Return nothing if the image doesn't exist
+  };
 
   return (
     
@@ -57,15 +122,27 @@ function App() {
             {/* Main */}
             <main className="content-wrap col-span-3 border-l-2 border-[#0F4D6C]">
               
-              <div className="virtual-image flex justify-center py-10 px-5">
+              <div className="virtual-image relative flex justify-center py-10 px-5">
                 <img
                     src={getImageSrc()}
-                    alt="baseimage"
-                    className="baseimage w-[1000px] h-[563px] object-contain"
-                  />                  
+                    alt="base-image"
+                    className="base-image w-[1000px] h-[563px] object-contain z-1"
+                  />
+
+                  <ImageComponent
+                    attrType="Parede"
+                    activeSlide={activeSlide}
+                    activeButton={activeButton}
+                  />
+                  <ImageComponent
+                    attrType="Chao"
+                    activeSlide={activeSlide}
+                    activeButton={activeButton}
+                  />
+
               </div>
 
-              <ProductSection filters={filters} />
+              <ProductSection filters={filters} onSlideChange={handleSlideChange} />
 
             </main>
           </div>

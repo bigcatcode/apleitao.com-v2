@@ -87,7 +87,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
                     src={
                       window.reactAppConfig?.assetsUrl
                         ? `${window.reactAppConfig.assetsUrl}/${term.name}.svg`
-                        : require(`./assets/${term.name}.svg`)
+                        : `/assets/${term.name}.svg`
                     }
                     alt={term.name}
                     className="filterlogo w-[80%] 1630:w-[238px]"
