@@ -9,7 +9,8 @@ module.exports = {
         poppins: ['Poppins', 'sans-serif'],
       },
       screens: {
-        '1630': '1630px', // Add a custom breakpoint for 1630px
+        '1630': '1630px',
+        '1330': '1330px',
       },
     },
   },

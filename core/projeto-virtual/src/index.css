@@ -2,18 +2,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-.content-wrap {
-  border-left: 2px solid #0F4D6C;
-}
-.filterlogo {
-  width: 238px;
-}
-.filter-label {
-  font-size: 16px;
-  color: white;
-  background: #F79549;
-  line-height: 48px;
-}
+
+
 .elementor-kit-5 button.mainbutton {
   background: #F79549;
   border: none;

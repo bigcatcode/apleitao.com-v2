@@ -9,7 +9,7 @@ function Sidebar({ activeButton, onButtonClick }) {
       ];
 
   return (
-    <div className="w-[136px] bg-[#0F4D6C] flex flex-col items-center py-8 gap-6">
+    <div className="w-full 1330:w-[136px] h-[118px] 1330:h-auto bg-[#0F4D6C] flex flex-row 1330:flex-col items-center justify-center 1330:justify-start 1330:py-8 gap-6">
       {buttons.map(({ name, icon }) => (
         <button
           key={name}

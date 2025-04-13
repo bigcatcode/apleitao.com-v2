@@ -90,7 +90,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
                         : require(`./assets/${term.name}.svg`)
                     }
                     alt={term.name}
-                    className="filterlogo"
+                    className="filterlogo w-[80%] 1630:w-[238px]"
                   />
                 ) : (
                   <span className="term-name font-poppins text-[#0F4D6C]">{term.name}</span>

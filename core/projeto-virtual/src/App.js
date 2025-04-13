@@ -35,14 +35,14 @@ function App() {
   return (
     
     <div className="w-full flex justify-center">
-      <div className="flex w-full max-w-[1640px]">
+      <div className="flex flex-col 1330:flex-row w-full max-w-[1640px]">
 
         {/* Sidebar extracted to component */}
         <Sidebar activeButton={activeButton} onButtonClick={handleButtonClick} />
 
 
         {/* Main Content */}
-        <div className="flex-1 ml-8">
+        <div className="w-full 1330:flex-1 1330:ml-8">
           <div className="grid grid-cols-4 py-8 gap-8">
             {/* Filters */}
             <aside className="filters col-span-1">
@@ -55,7 +55,7 @@ function App() {
             </aside>
 
             {/* Main */}
-            <main className="content-wrap col-span-3">
+            <main className="content-wrap col-span-3 border-l-2 border-[#0F4D6C]">
               
               <div className="virtual-image flex justify-center py-10 px-5">
                 <img
