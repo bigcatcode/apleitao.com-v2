@@ -57,7 +57,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
         )}
 
       <form>
-        <ul className={layout === 'two-column' ? 'grid grid-cols-2 gap-4' : 'space-y-2'}>
+        <ul className={layout === 'two-column' ? 'grid grid-cols-1 1630:grid-cols-2 gap-4' : 'space-y-2'}>
           {terms.map((term) => (
             <li key={term.id} className={layout === 'two-column' ? 'flex items-center space-x-2' : ''}>
               <label className="inline-flex items-center mt-[10px] mb-[10px] cursor-pointer">
