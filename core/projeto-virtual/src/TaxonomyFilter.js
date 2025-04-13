@@ -65,7 +65,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
                   type="checkbox"
                   value={term.id}
                   onChange={handleCheckboxChange}
-                  className="custom-checkbox w-[30px] h-[30px] mr-[7px]"
+                  className="custom-checkbox min-w-[30px] h-[30px] mr-[15px]"
                 />
 
                 {taxonomy === 'cor' && (
@@ -74,10 +74,10 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
                       <img
                         src={term.cor_image_url}
                         alt={term.name}
-                        className="w-[20px] h-[20px] rounded-full"
+                        className="min-w-[20px] w-[20px] h-[20px] rounded-full"
                       />
                     ) : (
-                      <div className="w-[20px] h-[20px] rounded-full border border-[#707070] bg-transparent"></div>
+                      <div className="min-w-[20px] w-[20px] h-[20px] rounded-full border border-[#707070] bg-transparent"></div>
                     )}
                   </div>
                 )}
