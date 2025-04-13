@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BASE_URL from './config';
 
-function TaxonomyFilter({ taxonomy, layout = 'one-column' }) {
+function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
   const [terms, setTerms] = useState([]);
   const [selectedTerms, setSelectedTerms] = useState([]);
 
@@ -27,6 +27,11 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column' }) {
 
     fetchTerms();
   }, [taxonomy]);
+
+  useEffect(() => {
+    onChange(taxonomy, selectedTerms.map(Number));
+  }, [selectedTerms]);
+
 
   // Handle checkbox state change
   const handleCheckboxChange = (event) => {

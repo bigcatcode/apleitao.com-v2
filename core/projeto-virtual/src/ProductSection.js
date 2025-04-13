@@ -5,41 +5,48 @@ import ProductSlider from './ProductSlider';
 
 import BASE_URL from './config';
 
-function ProductSection() {
-  const [products, setProducts] = useState([]);
+function ProductSection({ filters }) {
+  const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+
+    useEffect(() => {
     const fetchProducts = async () => {
-      try {
-        let allProducts = [];
-        let currentPage = 1;
+        try {
+        let products = [];
+        let page = 1;
         let hasMore = true;
 
         while (hasMore) {
-          const response = await fetch(
-            `${BASE_URL}/wp-json/wp/v2/produtos?_embed&per_page=100&page=${currentPage}`
-          );
-          const data = await response.json();
-          allProducts = [...allProducts, ...data];
-
-          if (data.length < 100) {
-            hasMore = false;
-          } else {
-            currentPage += 1;
-          }
+            const res = await fetch(`${BASE_URL}/wp-json/wp/v2/produtos?_embed&per_page=100&page=${page}`);
+            const data = await res.json();
+            products = [...products, ...data];
+            hasMore = data.length === 100;
+            page++;
         }
 
-        setProducts(allProducts);
+        setAllProducts(products);
         setLoading(false);
-      } catch (error) {
+        } catch (error) {
         console.error('Error fetching products:', error);
         setLoading(false);
-      }
+        }
     };
 
     fetchProducts();
-  }, []);
+    }, []);
+
+  const filterProducts = (products) => {
+    return products.filter((product) => {
+      return Object.entries(filters).every(([taxonomy, selectedIds]) => {
+        if (selectedIds.length === 0) return true;
+        const productTermIds = product[taxonomy] || [];
+        return selectedIds.some((id) => productTermIds.includes(id));
+      });
+    });
+  };
+
+  const filteredProducts = filterProducts(allProducts);
 
   return (
     <div>
@@ -53,7 +60,7 @@ function ProductSection() {
           </div>
         ) : (
           <div className="product-slider">
-            <ProductSlider products={products} />
+            <ProductSlider products={filteredProducts} />
           </div>
         )}
       </div>
@@ -68,7 +75,7 @@ function ProductSection() {
           </div>
         ) : (
           <div className="product-slider">
-            <ProductSlider products={products} />
+            <ProductSlider products={filteredProducts} />
           </div>
         )}
       </div>

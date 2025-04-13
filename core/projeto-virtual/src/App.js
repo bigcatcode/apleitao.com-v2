@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, {  useState } from 'react';
 
 import { MarcaFilter, CorFilter, AcabamentoFilter, EstiloFilter } from './filters';
 import Sidebar from './Sidebar';
@@ -8,6 +8,17 @@ function App() {
 
     // Track active button and image source
     const [activeButton, setActiveButton] = useState('Sala'); // Default active button
+
+    const [filters, setFilters] = useState({
+      marca: [],
+      cor: [],
+      acabamento: [],
+      estilo: [],
+    });
+
+    const updateFilter = (taxonomy, selectedIds) => {
+      setFilters((prev) => ({ ...prev, [taxonomy]: selectedIds }));
+    };
 
     // Function to handle button click and change image
     const handleButtonClick = (buttonName) => {
@@ -36,13 +47,10 @@ function App() {
             {/* Filters */}
             <aside className="filters col-span-1">
               
-              <MarcaFilter />
-              
-              <CorFilter />
-              
-              <AcabamentoFilter />
-
-              <EstiloFilter />
+              <MarcaFilter onChange={updateFilter} />
+              <CorFilter onChange={updateFilter} />
+              <AcabamentoFilter onChange={updateFilter} />
+              <EstiloFilter onChange={updateFilter} />
 
             </aside>
 
@@ -57,7 +65,7 @@ function App() {
                   />                  
               </div>
 
-              <ProductSection />
+              <ProductSection filters={filters} />
 
             </main>
           </div>
