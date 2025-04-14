@@ -42,7 +42,7 @@ function custom_child_scripts() {
 
 
 		wp_localize_script('projeto_virtual_js', 'reactAppConfig', [
-			'assetsUrl' => CORE_URL . '/projeto-virtual/public'
+			'assetsUrl' => CORE_URL . '/projeto-virtual/build'
 		]);
 		
 		
