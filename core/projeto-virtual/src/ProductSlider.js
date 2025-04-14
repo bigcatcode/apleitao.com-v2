@@ -26,7 +26,7 @@ function ProductSlider({ products, type, onSlideChange }) {
 
   return (
     <div className="relative flex justify-center">
-      <div className="w-full max-w-[1000px] h-[100px]">
+      <div className="w-full max-w-[1000px]">
         <Swiper
           modules={[Navigation]}
           spaceBetween={10}
@@ -91,7 +91,7 @@ function ProductSlider({ products, type, onSlideChange }) {
                 onClick={() => onSlideClick(product, type)}
                 className={`cursor-pointer`}
               >
-                <div className="h-[100px] flex flex-col justify-between items-center">
+                <div className="flex flex-col justify-between items-center">
                   <img
                     src={imageUrl}
                     alt={title}

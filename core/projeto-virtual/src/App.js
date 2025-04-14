@@ -151,7 +151,7 @@ const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
       src={imageSrc}
       alt={`${attrType} - ${activeButton}`}
       className={`
-        ${attrType}-image w-[1000px] h-[563px] object-contain absolute z-10
+        ${attrType}-image w-[1000px] h-auto object-contain absolute z-10
         transition-opacity duration-500 ease-in-out
         ${isVisible ? 'opacity-100' : 'opacity-0'}
       `}
@@ -176,9 +176,9 @@ const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
 
         {/* Main Content */}
         <div className="w-full 1330:flex-1 1330:ml-8">
-          <div className="grid grid-cols-4 py-8 gap-8">
+          <div className="grid grid-cols-1 px-5 960:px-0 960:grid-cols-4 py-8 gap-0 960:gap-8">
             {/* Filters */}
-            <aside className="filters col-span-1">
+            <aside className="filters col-span-1 grid grid-cols-1 gap-0 540:grid-cols-2 540:gap-8 960:grid-cols-1 960:gap-0">
               
               <MarcaFilter onChange={updateFilter} />
               <CorFilter onChange={updateFilter} />
@@ -188,13 +188,13 @@ const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
             </aside>
 
             {/* Main */}
-            <main className="content-wrap col-span-3 border-l-2 border-[#0F4D6C]">
+            <main className="content-wrap col-span-3 border-l-0 960:border-l-2 border-[#0F4D6C] px-5">
               
-              <div className="virtual-image relative flex justify-center py-10 px-5">
+              <div className="virtual-image relative flex justify-center py-10">
                 <img
                     src={getImageSrc()}
                     alt="base-image"
-                    className="base-image w-[1000px] h-[563px] object-contain z-1"
+                    className="base-image w-[1000px] h-auto object-contain z-1"
                   />
 
                   <ImageComponent

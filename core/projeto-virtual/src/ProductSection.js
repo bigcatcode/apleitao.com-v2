@@ -50,7 +50,7 @@ function ProductSection({ filters, onSlideChange }) {
 
   return (
     <div>
-      <div className="product-top px-5">
+      <div className="product-top">
         <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-5">
           BANCADA & PAREDE
         </h3>
@@ -65,7 +65,7 @@ function ProductSection({ filters, onSlideChange }) {
         )}
       </div>
 
-      <div className="product-bottom px-5">
+      <div className="product-bottom">
         <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-5">
           CHÃO
         </h3>
