@@ -5,6 +5,9 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import LeftArrow from './LeftArrow';
+import RightArrow from './RightArrow';
+
 function ProductSlider({ products, type, onSlideChange }) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
@@ -104,9 +107,15 @@ function ProductSlider({ products, type, onSlideChange }) {
           })}
         </Swiper>
 
-        <div className="absolute top-[-60px] w-full flex justify-between px-4 max-w-[1000px]">
-          <div ref={prevRef} className="swiper-button-prev !text-[#0F4D6C] !static" />
-          <div ref={nextRef} className="swiper-button-next !text-[#0F4D6C] !static" />
+        <div className="absolute top-[-72px] w-full flex justify-between px-4 max-w-[1000px] hidden 540:flex">
+
+            <div ref={prevRef} className="swiper-button-prev_ !static cursor-pointer">
+                <LeftArrow className="h-[60px]" />
+            </div>
+            <div ref={nextRef} className="swiper-button-next_ !static cursor-pointer">
+                <RightArrow className="h-[60px]" />
+            </div>
+
         </div>
       </div>
     </div>
