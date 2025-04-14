@@ -1,4 +1,4 @@
-import React, {  useState, useEffect } from 'react';
+import React, {  useState, useEffect, useRef } from 'react';
 
 import { MarcaFilter, CorFilter, AcabamentoFilter, EstiloFilter } from './filters';
 import Sidebar from './Sidebar';
@@ -26,12 +26,13 @@ function App() {
       setActiveButton(buttonName);
     };
     
-    const handleSlideChange = (slideData, stype) => {
-      setActiveSlide((prev) => ({
-        ...prev,
-        [stype]: slideData
-      }));
-    };
+const handleSlideChange = (slideData, stype) => {
+  setActiveSlide((prev) => ({
+    ...prev,
+    [stype]: slideData,
+    type: stype // ✅ store the active type
+  }));
+};
 
 
     // useEffect(() => {
@@ -41,8 +42,8 @@ function App() {
     // Generate image based on active button
     const getImageSrc = () => {
       return window.reactAppConfig?.assetsUrl
-        ? `${window.reactAppConfig.assetsUrl}/ProjetoVirtual/${activeButton}/${activeButton}_BASE.webp`
-        : `./assets/Projeto Virtual/Projecto virtual - ${activeButton}/${activeButton}_BASE.webp`;
+        ? `${window.reactAppConfig.assetsUrl}/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${activeButton}_BASE.webp`
+        : `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${activeButton}_BASE.webp`;
     };
 
     const removeAccents = (input) => {
@@ -86,7 +87,10 @@ function App() {
   // Generate image for active slide
   const getSlideImageSrc = (attrType, activeSlide, activeButton) => {
     const slide = activeSlide[attrType];
-    if (!slide) return null;
+
+   // if (!slide || activeSlide.stype !== attrType) return null;
+   //console.log(activeSlide);
+   //console.log(attrType);
 
     if (!slide || !slide.title || !slide.title.rendered ) {
       return ''; // Return an empty string or a fallback image path if slideData is not available
@@ -100,7 +104,11 @@ function App() {
     const pre_name = activeButton === 'Cozinha' && attrType === 'Parede' ? 'Balcao' : attrType;
 
 
-    return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}_${titleWithoutSpaces}.webp`;
+    
+    //return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}_${titleWithoutSpaces}.webp`;
+
+    const basePath = window.reactAppConfig?.assetsUrl ?? '';
+    return `${basePath}/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}_${titleWithoutSpaces}.webp`;
 
   };
 
@@ -114,31 +122,47 @@ const checkImageExists = (src) => {
   });
 }
 
-  const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
-    const [imageExists, setImageExists] = useState(false);
-  
-    useEffect(() => {
-      const imageSrc = getSlideImageSrc(attrType, activeSlide, activeButton);
-      console.log(imageSrc);
-      if (imageSrc) {
-        checkImageExists(imageSrc).then((exists) => setImageExists(exists));
-      }
-    }, [attrType, activeSlide, activeButton]);
-  
-    const imageSrc = getSlideImageSrc(attrType, activeSlide, activeButton);
-  
-    if (imageExists) {
-      return (
-        <img
-          src={imageSrc}
-          alt={`${attrType} - ${activeButton}`}
-          className={`${attrType}-image w-[1000px] h-[563px] object-contain absolute z-10`}
-        />
-      );
+const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
+  const [imageExists, setImageExists] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const imageSrc = getSlideImageSrc(attrType, activeSlide, activeButton);
+
+  useEffect(() => {
+    if (imageSrc) {
+      setIsVisible(false); // Reset opacity
+      checkImageExists(imageSrc).then((exists) => {
+        setImageExists(exists);
+        if (exists) {
+          // Fade in after a short delay
+          setTimeout(() => setIsVisible(true), 50);
+        }
+      });
+    } else {
+      setImageExists(false);
+      setIsVisible(false);
     }
-  
-    return null; // Return nothing if the image doesn't exist
-  };
+  }, [imageSrc]);
+
+  if (!imageExists) return null;
+
+  return (
+    <img
+      src={imageSrc}
+      alt={`${attrType} - ${activeButton}`}
+      className={`
+        ${attrType}-image w-[1000px] h-[563px] object-contain absolute z-10
+        transition-opacity duration-500 ease-in-out
+        ${isVisible ? 'opacity-100' : 'opacity-0'}
+      `}
+    />
+  );
+};
+
+
+
+
+
+
 
   return (
     

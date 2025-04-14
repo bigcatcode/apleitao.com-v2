@@ -86,7 +86,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
                   <img
                     src={
                       window.reactAppConfig?.assetsUrl
-                        ? `${window.reactAppConfig.assetsUrl}/${term.name}.svg`
+                        ? `${window.reactAppConfig.assetsUrl}/assets/${term.name}.svg`
                         : `/assets/${term.name}.svg`
                     }
                     alt={term.name}
