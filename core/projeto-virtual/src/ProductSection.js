@@ -5,6 +5,8 @@ import ProductSlider from './ProductSlider';
 
 import BASE_URL from './config';
 
+import SliderSkeleton from './SliderSkeleton';
+
 function ProductSection({ filters, onSlideChange }) {
   const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,9 +57,7 @@ function ProductSection({ filters, onSlideChange }) {
           BANCADA & PAREDE
         </h3>
         {loading ? (
-          <div className="flex justify-center items-center">
-            <ClipLoader color="#0F4D6C" size={50} />
-          </div>
+            <SliderSkeleton />
         ) : (
           <div className="product-slider">
             <ProductSlider products={filteredProducts} type="Parede" onSlideChange={onSlideChange} />
@@ -70,9 +70,7 @@ function ProductSection({ filters, onSlideChange }) {
           CHÃO
         </h3>
         {loading ? (
-          <div className="flex justify-center items-center">
-            <ClipLoader color="#0F4D6C" size={50} />
-          </div>
+            <SliderSkeleton />
         ) : (
           <div className="product-slider">
             <ProductSlider products={filteredProducts} type="Chao" onSlideChange={onSlideChange} />
