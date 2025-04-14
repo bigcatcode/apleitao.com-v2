@@ -14,7 +14,7 @@ const SliderSkeleton = () => {
         </div>
 
         {/* Navigation buttons placeholders */}
-        <div className="absolute top-[-60px] w-full flex justify-between px-4 max-w-[1000px]">
+        <div className="absolute top-[-60px] w-full flex justify-between px-4 max-w-[1000px] hidden 540:flex">
           <div className="h-[60px] w-[60px] bg-gray-300 rounded-full animate-pulse" />
           <div className="h-[60px] w-[60px] bg-gray-300 rounded-full animate-pulse" />
         </div>

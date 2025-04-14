@@ -57,11 +57,19 @@ function ProductSection({ filters, onSlideChange }) {
           BANCADA & PAREDE
         </h3>
         {loading ? (
-            <SliderSkeleton />
-        ) : (
-          <div className="product-slider">
-            <ProductSlider products={filteredProducts} type="Parede" onSlideChange={onSlideChange} />
-          </div>
+                    <SliderSkeleton />
+                ) : filteredProducts.length === 0 ? (
+                    <div className="relative">
+                        <SliderSkeleton />
+                        <p className="absolute top-0 left-1/2 transform -translate-x-1/2 text-center text-[#0F4D6C] mt-4 text-lg">
+                            Nenhum produto encontrado.
+                        </p>
+
+                    </div>
+                ) : (
+                    <div className="product-slider">
+                    <ProductSlider products={filteredProducts} type="Parede" onSlideChange={onSlideChange} />
+                    </div>
         )}
       </div>
 
@@ -70,11 +78,19 @@ function ProductSection({ filters, onSlideChange }) {
           CHÃO
         </h3>
         {loading ? (
-            <SliderSkeleton />
-        ) : (
-          <div className="product-slider">
-            <ProductSlider products={filteredProducts} type="Chao" onSlideChange={onSlideChange} />
-          </div>
+                    <SliderSkeleton />
+                ) : filteredProducts.length === 0 ? (
+                    <div className="relative">
+                        <SliderSkeleton />
+                        <p className="absolute top-0 left-1/2 transform -translate-x-1/2 text-center text-[#0F4D6C] mt-4 text-lg">
+                            Nenhum produto encontrado.
+                        </p>
+
+                    </div>
+                ) : (
+                    <div className="product-slider">
+                    <ProductSlider products={filteredProducts} type="Chao" onSlideChange={onSlideChange} />
+                    </div>
         )}
       </div>
     </div>
