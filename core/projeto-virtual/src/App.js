@@ -102,13 +102,13 @@ const handleSlideChange = (slideData, stype) => {
     
    
     const pre_name = activeButton === 'Cozinha' && attrType === 'Parede' ? 'Balcao' : attrType;
-
+    const separat = activeButton === 'Sala'  ? '-' : '_';
 
     
     //return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}_${titleWithoutSpaces}.webp`;
 
     const basePath = window.reactAppConfig?.assetsUrl ?? '';
-    return `${basePath}/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}_${titleWithoutSpaces}.webp`;
+    return `${basePath}/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}${separat}${titleWithoutSpaces}.webp`;
 
   };
 
@@ -137,6 +137,7 @@ const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
           setTimeout(() => setIsVisible(true), 50);
         }
       });
+      //console.log(imageSrc);
     } else {
       setImageExists(false);
       setIsVisible(false);
