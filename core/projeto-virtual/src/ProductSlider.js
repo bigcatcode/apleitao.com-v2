@@ -100,7 +100,7 @@ function ProductSlider({ products, type, onSlideChange }) {
                     alt={title}
                     className={`w-full h-[56px] object-cover border-2 ${isActive ? 'border-[#F79549]' : 'border-transparent'}`}
                   />
-                  <p className="text-center text-[18px] text-[#0F4D6C] uppercase">{title}</p>
+                  <p className="text-center text-[12px] 540:text-[18px] text-[#0F4D6C] uppercase">{title}</p>
                 </div>
               </SwiperSlide>
             );
