@@ -3,6 +3,7 @@ import React, {  useState, useEffect, useRef } from 'react';
 import { MarcaFilter, CorFilter, AcabamentoFilter, EstiloFilter } from './filters';
 import Sidebar from './Sidebar';
 import ProductSection from './ProductSection';
+import { getReplacements } from './getReplacements';
 
 function App() {
 
@@ -98,17 +99,25 @@ const handleSlideChange = (slideData, stype) => {
 
     const { title, marca_names } = slide; // Destructure data from activeSlide
     const titleWithoutSpaces = removeAccents(title.rendered).replace(/\s+/g, ''); // Remove spaces from the title
-    const marcaClean = removeAccents(marca_names);
+    const marcaClean = removeAccents(marca_names[0] || '');
     
    
     const pre_name = activeButton === 'Cozinha' && attrType === 'Parede' ? 'Balcao' : attrType;
-    const separat = activeButton === 'Sala'  ? '-' : '_';
+    let separat = activeButton === 'Sala'  ? '-' : '_';
 
+    let finalTitle = titleWithoutSpaces;
+ 
+    if (marcaClean === 'Dekton') {
+      separat = '_';
+      const replacements = getReplacements();
     
-    //return `/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}_${titleWithoutSpaces}.webp`;
+      if (replacements[titleWithoutSpaces]) {
+        finalTitle = replacements[titleWithoutSpaces];
+      }
+    }
 
     const basePath = window.reactAppConfig?.assetsUrl ?? '';
-    return `${basePath}/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${titleWithoutSpaces}/${pre_name}_${activeButton}${separat}${titleWithoutSpaces}.webp`;
+    return `${basePath}/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${finalTitle}/${pre_name}_${activeButton}${separat}${finalTitle}.webp`;
 
   };
 
