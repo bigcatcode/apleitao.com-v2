@@ -59,7 +59,7 @@ export const replacements_s = {
   EtMarfil: "EtMarfil_Eternal",
   EtNoir: "EtNoir_Eternal",
   EtStatuario: "EtStatuario_Eternal",
-  EtMarquina: "EtMarquina_Eternal"
+  Etmarquina: "EtMarquina_Eternal"
 };
 
   

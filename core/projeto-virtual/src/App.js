@@ -4,6 +4,7 @@ import { MarcaFilter, CorFilter, AcabamentoFilter, EstiloFilter } from './filter
 import Sidebar from './Sidebar';
 import ProductSection from './ProductSection';
 import { getReplacements } from './getReplacements';
+import { getReplacements_S } from './getReplacements_S';
 
 function App() {
 
@@ -116,6 +117,20 @@ const handleSlideChange = (slideData, stype) => {
       }
     }
 
+    if (marcaClean === 'Silestone') {
+      separat = '_';
+      const replacements_s = getReplacements_S();
+
+      const cleanTitle = titleWithoutSpaces
+      .replace(/['’]/g, '')    
+      .replace(/\s+/g, '');    
+
+    
+      if (replacements_s[cleanTitle]) {
+        finalTitle = replacements_s[cleanTitle];
+      }
+    }
+
     const basePath = window.reactAppConfig?.assetsUrl ?? '';
     return `${basePath}/assets/Projeto Virtual/Projecto virtual - ${activeButton}/${marcaClean}-montagens-${activeButton.toUpperCase()}/${finalTitle}/${pre_name}_${activeButton}${separat}${finalTitle}.webp`;
 
@@ -146,7 +161,7 @@ const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
           setTimeout(() => setIsVisible(true), 50);
         }
       });
-      //console.log(imageSrc);
+      console.log(imageSrc);
     } else {
       setImageExists(false);
       setIsVisible(false);
