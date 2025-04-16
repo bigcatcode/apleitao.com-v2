@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import SkeletonFilters from './SkeletonFilters';
 import BASE_URL from './config';
 
 function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
   const [terms, setTerms] = useState([]);
   const [selectedTerms, setSelectedTerms] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Fetch terms from the WordPress REST API
   useEffect(() => {
@@ -22,6 +24,8 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
         setTerms(sortedData);
       } catch (error) {
         console.error(`Error fetching ${taxonomy} terms:`, error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -57,50 +61,54 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
         )}
 
       <form>
-        <ul className={layout === 'two-column' ? 'grid grid-cols-1 1630:grid-cols-2 gap-4' : 'space-y-2'}>
-          {terms.map((term) => (
-            <li key={term.id} className={layout === 'two-column' ? 'flex items-center space-x-2' : ''}>
-              <label className="inline-flex items-center mt-[10px] mb-[10px] cursor-pointer">
-                <input
-                  type="checkbox"
-                  value={term.id}
-                  onChange={handleCheckboxChange}
-                  className="custom-checkbox min-w-[30px] h-[30px] mr-[15px]"
-                />
+        {isLoading ? (
+            <SkeletonFilters layout={layout} taxonomy={taxonomy} />
+        ) : (
+            <ul className={layout === 'two-column' ? 'grid grid-cols-1 1630:grid-cols-2 gap-4' : 'space-y-2'}>
+            {terms.map((term) => (
+                <li key={term.id} className={layout === 'two-column' ? 'flex items-center space-x-2' : ''}>
+                <label className="inline-flex items-center mt-[10px] mb-[10px] cursor-pointer">
+                    <input
+                    type="checkbox"
+                    value={term.id}
+                    onChange={handleCheckboxChange}
+                    className="custom-checkbox min-w-[30px] h-[30px] mr-[15px]"
+                    />
 
-                {taxonomy === 'cor' && (
-                  <div className="mr-[10px]">
-                    {term.cor_image_url ? (
-                      <img
-                        src={term.cor_image_url}
-                        alt={term.name}
-                        className="min-w-[20px] w-[20px] h-[20px] rounded-full"
-                      />
-                    ) : (
-                      <div className="min-w-[20px] w-[20px] h-[20px] rounded-full border border-[#707070] bg-transparent"></div>
+                    {taxonomy === 'cor' && (
+                    <div className="mr-[10px]">
+                        {term.cor_image_url ? (
+                        <img
+                            src={term.cor_image_url}
+                            alt={term.name}
+                            className="min-w-[20px] w-[20px] h-[20px] rounded-full"
+                        />
+                        ) : (
+                        <div className="min-w-[20px] w-[20px] h-[20px] rounded-full border border-[#707070] bg-transparent"></div>
+                        )}
+                    </div>
                     )}
-                  </div>
-                )}
 
-                {taxonomy === 'marca' && (term.name === 'Silestone' || term.name === 'Dekton') ? (
-                  <img
-                    src={
-                      window.reactAppConfig?.assetsUrl
-                        ? `${window.reactAppConfig.assetsUrl}/assets/${term.name}.svg`
-                        : `/assets/${term.name}.svg`
-                    }
-                    alt={term.name}
-                    className="filterlogo w-[80%] 1630:w-[238px]"
-                  />
-                ) : (
-                  <span className="term-name font-poppins text-[#0F4D6C]">{term.name}</span>
-                )}
+                    {taxonomy === 'marca' && (term.name === 'Silestone' || term.name === 'Dekton') ? (
+                    <img
+                        src={
+                        window.reactAppConfig?.assetsUrl
+                            ? `${window.reactAppConfig.assetsUrl}/assets/${term.name}.svg`
+                            : `/assets/${term.name}.svg`
+                        }
+                        alt={term.name}
+                        className="filterlogo w-[80%] 1630:w-[238px]"
+                    />
+                    ) : (
+                    <span className="term-name font-poppins text-[#0F4D6C]">{term.name}</span>
+                    )}
 
-               
-              </label>
-            </li>
-          ))}
-        </ul>
+                
+                </label>
+                </li>
+            ))}
+            </ul>
+        )}
       </form>
     </div>
   );
