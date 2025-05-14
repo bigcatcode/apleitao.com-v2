@@ -211,22 +211,52 @@ useEffect(() => {
   return () => window.removeEventListener('scroll', handleScroll);
 }, []);
 
+const [showFilters, setShowFilters] = useState(true);
 
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth < 960) {
+      setShowFilters(false); 
+    } else {
+      setShowFilters(true); 
+    }
+  };
+
+  handleResize(); 
+
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+
+
+const toggleFilters = () => {
+  if (window.innerWidth < 960) {
+    setShowFilters((prev) => !prev);
+  }
+};
 
   return (
     
     <div className="w-full flex justify-center">
-      <div className="flex flex-col 1330:flex-row w-full max-w-[1640px]">
+      <div className="flex flex-row w-full max-w-[1640px]">
 
         {/* Sidebar extracted to component */}
-        <Sidebar activeButton={activeButton} onButtonClick={handleButtonClick} />
+        <Sidebar activeButton={activeButton} onButtonClick={handleButtonClick} onToggleFilters={toggleFilters} />
 
 
         {/* Main Content */}
-        <div className="w-full 1330:flex-1 1330:ml-8">
-          <div className="grid grid-cols-1 px-5 960:px-0 960:grid-cols-4 py-8 gap-0 960:gap-8">
+        <div className="flex-1 ml-0 540:ml-8">
+          <div className="grid grid-cols-1 px-0 540:px-5 960:px-0 960:grid-cols-4 py-0 540:py-8 gap-0 960:gap-8">
+            
             {/* Filters */}
-            <aside className="filters col-span-1 grid grid-cols-1 gap-0 540:grid-cols-2 540:gap-8 960:grid-cols-1 960:gap-0">
+
+            <aside
+              className={`
+                filters col-span-1 grid grid-cols-1 gap-0 540:grid-cols-2 540:gap-8 960:grid-cols-1 960:gap-0
+                transition-all duration-300
+                ${showFilters ? 'block' : 'hidden'}
+              `}
+            >
               
               <MarcaFilter onChange={updateFilter} />
               <CorFilter onChange={updateFilter} />
@@ -243,7 +273,7 @@ useEffect(() => {
             >
             
               
-              <div className="virtual-image relative flex justify-center py-10">
+              <div className="virtual-image relative flex justify-center pt-10 pb-0 540:pb-10">
                 <img
                     src={getImageSrc()}
                     alt="base-image"

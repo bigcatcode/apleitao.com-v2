@@ -18,3 +18,8 @@
   background: #F79549;
   border: none;
 }
+
+.elementor-kit-5 button.mainbutton.triggerbutton {
+  background: none;
+  border: none;
+}

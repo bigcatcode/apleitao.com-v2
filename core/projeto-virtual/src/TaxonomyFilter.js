@@ -48,7 +48,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
   };
 
   return (
-    <div className="filters-wrap p-[28px] border border-[#707070] mb-[20px]">
+    <div className="filters-wrap p-[20px] 540:p-[28px] border border-[#707070] mb-0 540:mb-[20px] text-[14px] 540:text-base">
     
         {taxonomy === 'marca' && (
             <div className="apl-logo mb-4">
@@ -64,7 +64,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
         {isLoading ? (
             <SkeletonFilters layout={layout} taxonomy={taxonomy} />
         ) : (
-            <ul className={layout === 'two-column' ? 'grid grid-cols-1 1630:grid-cols-2 gap-4' : 'space-y-2'}>
+            <ul className={layout === 'two-column' ? 'grid grid-cols-2 540:grid-cols-1 1630:grid-cols-2 gap-4' : 'space-y-2'}>
             {terms.map((term) => (
                 <li key={term.id} className={layout === 'two-column' ? 'flex items-center space-x-2' : ''}>
                 <label className="inline-flex items-center mt-[10px] mb-[10px] cursor-pointer">
@@ -97,7 +97,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
                             : `/assets/${term.name}.svg`
                         }
                         alt={term.name}
-                        className="filterlogo w-[80%] 1630:w-[238px]"
+                        className="filterlogo w-[50%] 540:w-[70%] 1630:w-[200px]"
                     />
                     ) : (
                     <span className="term-name font-poppins text-[#0F4D6C]">{term.name}</span>

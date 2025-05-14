@@ -53,8 +53,9 @@ function ProductSection({ filters, onSlideChange }) {
   return (
     <div>
       <div className="product-top">
-        <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-5">
-          BANCADA & PAREDE
+        <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-10 540:mb-5">
+            <span className="block 960:hidden">PAREDE</span>
+            <span className="hidden 960:block">BANCADA & PAREDE</span>
         </h3>
         {loading ? (
                     <SliderSkeleton />
@@ -74,7 +75,7 @@ function ProductSection({ filters, onSlideChange }) {
       </div>
 
       <div className="product-bottom">
-        <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-5">
+        <h3 className="flex justify-center text-[30px] text-[#0F4D6C] uppercase mt-10 mb-10 540:mb-5">
           CHÃO
         </h3>
         {loading ? (

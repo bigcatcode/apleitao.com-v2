@@ -98,7 +98,7 @@ function ProductSlider({ products, type, onSlideChange }) {
                   <img
                     src={imageUrl}
                     alt={title}
-                    className={`w-full h-[56px] object-cover border-2 ${isActive ? 'border-[#F79549]' : 'border-transparent'}`}
+                    className={`w-full h-[39px] 540:h-[56px] object-cover border-2 ${isActive ? 'border-[#F79549]' : 'border-transparent'}`}
                   />
                   <p className="text-center text-[12px] 540:text-[18px] text-[#0F4D6C] uppercase">{title}</p>
                 </div>
@@ -107,7 +107,7 @@ function ProductSlider({ products, type, onSlideChange }) {
           })}
         </Swiper>
 
-        <div className="absolute top-[-72px] w-full flex justify-between px-4 max-w-[1000px] hidden 540:flex">
+        <div className="absolute top-[-72px] w-full flex justify-between px-0 540:px-4 max-w-[1000px] flex">
 
             <div ref={prevRef} className="swiper-button-prev_ !static cursor-pointer">
                 <LeftArrow className="h-[60px]" />
