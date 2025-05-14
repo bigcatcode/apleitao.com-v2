@@ -184,8 +184,32 @@ const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
 };
 
 
+const contentRef = useRef(null);
+const lastScrollY = useRef(0);
 
+useEffect(() => {
+  const handleScroll = () => {
+    const el = contentRef.current;
+    if (!el) return;
 
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > lastScrollY.current) {
+      // Скроллим вниз → top-[40px]
+      el.classList.remove('top-[120px]');
+      el.classList.add('top-[40px]');
+    } else {
+      // Скроллим вверх → top-[120px]
+      el.classList.remove('top-[40px]');
+      el.classList.add('top-[120px]');
+    }
+
+    lastScrollY.current = currentScrollY;
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
 
 
 
@@ -212,7 +236,12 @@ const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
             </aside>
 
             {/* Main */}
-            <main className="content-wrap col-span-3 border-l-0 960:border-l-2 border-[#0F4D6C] px-5">
+
+            <main
+              ref={contentRef}
+              className="content-wrap col-span-3 border-l-0 960:border-l-2 border-[#0F4D6C] px-5 [position:sticky] transition-all duration-500 top-[120px] h-fit self-start"
+            >
+            
               
               <div className="virtual-image relative flex justify-center py-10">
                 <img
