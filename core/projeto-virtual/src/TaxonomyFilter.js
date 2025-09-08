@@ -76,7 +76,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
                     />
 
                     {taxonomy === 'cor' && (
-                    <div className="mr-[10px]">
+                    <div className="mr-[5px] 1630:ml-[-5px]">
                         {term.cor_image_url ? (
                         <img
                             src={term.cor_image_url}
@@ -97,7 +97,7 @@ function TaxonomyFilter({ taxonomy, layout = 'one-column', onChange }) {
                             : `/assets/${term.name}.svg`
                         }
                         alt={term.name}
-                        className="filterlogo w-[50%] 540:w-[70%] 1630:w-[200px]"
+                        className="filterlogo w-[50%] 540:w-[70%] 1630:w-[110px]"
                     />
                     ) : (
                     <span className="term-name font-poppins text-[#0F4D6C]">{term.name}</span>

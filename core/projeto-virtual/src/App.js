@@ -161,7 +161,7 @@ const ImageComponent = ({ attrType, activeSlide, activeButton }) => {
           setTimeout(() => setIsVisible(true), 50);
         }
       });
-      //console.log(imageSrc);
+      console.log(imageSrc);
     } else {
       setImageExists(false);
       setIsVisible(false);
