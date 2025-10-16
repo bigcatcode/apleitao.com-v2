@@ -27,7 +27,7 @@ function custom_child_scripts() {
 
 		wp_enqueue_script(
 		    'projeto_virtual_js',
-		    CORE_URL . '/projeto-virtual/build/static/js/main.1200c941.js',
+		    CORE_URL . '/projeto-virtual/build/static/js/main.b9bbc5f9.js',
 	        array('jquery'), 
 	        rand(),
 	        true  

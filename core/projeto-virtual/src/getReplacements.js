@@ -1,7 +1,7 @@
 // src/utils/getReplacements.js
 
 const replacements = {
-    Albarium22kC: 'Albarium_Kraftizen',
+    //Albarium22kC: 'Albarium_Kraftizen',
     ArgentiumkC: 'Argentium_Kraftizen',
     DunnakC: 'Dunna_X-GlossSolid',
     HalokC: 'Halo_X-GlossSolid',
@@ -25,7 +25,7 @@ const replacements = {
     MarmoriokC: 'Marmorio_Pietra-Kode',
     NebbiakC: 'Nebbia_Pietra-Kode',
     SabbiakC: 'Sabbia_Pietra-Kode',
-    Adia: 'Adia_PietraEdition',
+    //Adia: 'Adia_PietraEdition',
     Ava: 'Ava_PietraEdition',
     AvoriokC: 'Avorio_PietraKode',
     Nebu: 'Nebu',
@@ -45,7 +45,7 @@ const replacements = {
     MoonekC: 'Moone_Solid',
     ZenithkC: 'Zenith_Solid',
     Zentum: 'Zentum',
-    AeriskC: 'AerisNatural',
+    //AeriskC: 'AerisNatural',
     Aura22kC: 'Aura_Natural',
     Bromo: 'Bromo_Natural',
     DanaekC: 'Danae_Natural',
