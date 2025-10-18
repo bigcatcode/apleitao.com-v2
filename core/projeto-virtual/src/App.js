@@ -112,9 +112,10 @@ const handleSlideChange = (slideData, stype) => {
       separat = '_';
       const replacements = getReplacements();
     
-      if (replacements[titleWithoutSpaces]) {
-        finalTitle = replacements[titleWithoutSpaces];
-      }
+      // if (replacements[titleWithoutSpaces]) {
+      //   finalTitle = replacements[titleWithoutSpaces];
+      // }
+      finalTitle = titleWithoutSpaces;
     }
 
     if (marcaClean === 'Silestone') {
@@ -126,9 +127,10 @@ const handleSlideChange = (slideData, stype) => {
       .replace(/\s+/g, '');    
 
     
-      if (replacements_s[cleanTitle]) {
-        finalTitle = replacements_s[cleanTitle];
-      }
+      // if (replacements_s[cleanTitle]) {
+      //   finalTitle = replacements_s[cleanTitle];
+      // }
+      finalTitle = cleanTitle;
     }
 
     const basePath = window.reactAppConfig?.assetsUrl ?? '';
